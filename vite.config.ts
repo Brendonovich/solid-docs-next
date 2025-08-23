@@ -1,6 +1,6 @@
-import { defineConfig } from "@solidjs/start/config";
-
-import { createWithSolidBase, defineTheme } from "@kobalte/solidbase/config";
+import { defineConfig } from "vite";
+import { solidStart } from "@solidjs/start/config";
+import { defineTheme, createSolidBase } from "@kobalte/solidbase/config"
 
 import tree from "./.solid/tree";
 import entries from "./.solid/flat-entries";
@@ -40,28 +40,16 @@ function docsData() {
 }
 
 const theme = defineTheme({
-	componentsPath: import.meta.resolve("./src/solidbase-theme"),
+	componentsPath: new URL("./src/solidbase-theme", import.meta.url),
 });
-export default defineConfig(
-	createWithSolidBase(theme)(
-		{
-			ssr: true,
-			middleware: "src/middleware/index.ts",
-			server: {
-				preset: "netlify",
-				prerender: {
-					crawlLinks: true,
-					autoSubfolderIndex: false,
-					failOnError: true,
-					// eslint-disable-next-line no-useless-escape
-					ignore: [/\{\getPath}/, /.*?emojiSvg\(.*/],
-				},
-			},
-			vite: {
-				plugins: [docsData(), heroCodeSnippet()],
-			},
-		},
-		{
+
+const solidBase = createSolidBase(theme)
+
+export default defineConfig({
+	plugins: [
+		docsData(),
+		heroCodeSnippet(),
+		solidBase({
 			title: "Solid Docs",
 			description:
 				"Documentation for SolidJS, the signals-powered UI framework",
@@ -130,9 +118,24 @@ export default defineConfig(
 					},
 				},
 			},
-		}
-	)
-);
+		}),
+		solidStart({
+			ssr: true,
+			middleware: "src/middleware/index.ts",
+			extensions: ["md", "mdx"],
+			server: {
+				preset: "netlify",
+				prerender: {
+					crawlLinks: true,
+					autoSubfolderIndex: false,
+					failOnError: true,
+					// eslint-disable-next-line no-useless-escape
+					ignore: [/\{\getPath}/, /.*?emojiSvg\(.*/],
+				},
+			},
+		}),
+	]
+});
 
 import { readFile } from "node:fs/promises";
 import { codeToHtml } from "shiki";
