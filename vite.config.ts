@@ -124,7 +124,7 @@ export default defineConfig({
 			middleware: "src/middleware/index.ts",
 			extensions: ["md", "mdx"],
 			server: {
-				preset: "netlify",
+				preset: "vercel",
 				prerender: {
 					crawlLinks: true,
 					autoSubfolderIndex: false,
