@@ -120,7 +120,6 @@ export default defineConfig({
 			},
 		}),
 		solidStart({
-			ssr: true,
 			middleware: "src/middleware/index.ts",
 			extensions: ["md", "mdx"],
 			server: {
