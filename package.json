@@ -19,7 +19,7 @@
 	},
 	"dependencies": {
 		"@kobalte/core": "^0.13.10",
-		"@kobalte/solidbase": "npm:@brendonovich/kobalte__solidbase@0.0.0-devinxi.9",
+		"@kobalte/solidbase": "https://pkg.pr.new/kobaltedev/solidbase/@kobalte/solidbase@95ff638",
 		"@lunariajs/core": "^0.1.1",
 		"@oramacloud/client": "^2.1.4",
 		"@solid-primitives/event-listener": "^2.4.1",
